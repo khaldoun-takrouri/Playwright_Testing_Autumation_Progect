@@ -1,35 +1,29 @@
-import dotenv from 'dotenv'
 import {test, expect} from '@playwright/test'
 import { PomManager } from '../pages/PomManager'
 import {CommonActions}  from '../helpers/CommonActions'
-import * as XLSX from 'xlsx'
-import path from 'path'
+import {users} from '../data/users.js'
+import {info} from '../data/info.js'
 
-dotenv.config({path: './data/.env'})
 let pm
 let actions
 
-//This test getting users data from users_data.xlsx file and convert it to json object
-const usersExcelDataFile = path.join(__dirname, '../data/users_data.xlsx')
-const workbook = XLSX.readFile(usersExcelDataFile)
-const worksheet = workbook.Sheets["Sheet1"]
-const users = XLSX.utils.sheet_to_json(worksheet)
 
-
-test.describe('Login Tests',  ()=>{ 
+test.describe('Login Tests', ()=>{ 
     test.beforeEach(async ({page})=>{
             pm = new PomManager(page)
-            actions = new CommonActions(page)
     })  
     
-    users.forEach(user => {
-        test(`Login Test ${user.username} ` , async ()=>{
+   users.forEach(user => {
+        test(`Login Test ${user.username} ` , async ({page})=>{
            //Login to the Swag Labs site
-           await pm.loginPage.login(process.env.url, process.env.standardUser, process.env.password1)
+           await page.goto(info.url)
+           await page.fill(pm.loginPage.usernameLocator, user.username)
+           await page.fill(pm.loginPage.passwordLocator, user.password)
+           await page.click(pm.loginPage.loginLocator)
 
            //assert inventory page url and title
-           await actions.assertPageUrl(process.env.inventoryPageUrl)
-           await actions.assertPageTitle(process.env.pageTitle)
+           await expect(page).toHaveURL(info.inventoryPageUrl)
+
 
         })
     });
