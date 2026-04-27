@@ -1,6 +1,5 @@
 import {test, expect} from '@playwright/test'
 import { PomManager } from '../pages/PomManager'
-import {CommonActions}  from '../helpers/CommonActions'
 import {users} from '../data/users.js'
 import {info} from '../data/info.js'
 
