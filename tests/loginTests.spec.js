@@ -1,31 +1,23 @@
 import {test, expect} from '@playwright/test'
-import { PomManager } from '../pages/PomManager'
-import {users} from '../data/users.js'
-import {info} from '../data/info.js'
+import {users, urls} from '../data/users.js'
+import { LoginPage } from '../pages/LoginPage.js'
+import { InventoryPage } from '../pages/InventoryPage.js'
 
-let pm
-let actions
 
+let loginPage
+let inventoryPage
 
 test.describe('Login Tests', ()=>{ 
+
     test.beforeEach(async ({page})=>{
-            pm = new PomManager(page)
+            loginPage = new  LoginPage(page) 
+            inventoryPage = new InventoryPage(page)  
+            await loginPage.goToLoginPage()
     })  
     
    users.forEach(user => {
-        test(`Login Test ${user.username} ` , async ({page})=>{
-           //Login to the Swag Labs site
-           await page.goto(info.url)
-           await page.fill(pm.loginPage.usernameLocator, user.username)
-           await page.fill(pm.loginPage.passwordLocator, user.password)
-           await page.click(pm.loginPage.loginLocator)
-
-           //assert inventory page url and title
-           await expect(page).toHaveURL(info.inventoryPageUrl)
-
-
+        test(`Login Test ${user.username} ` , async ({page})=>{           
+            await loginPage.login(user.username, user.password)
         })
-    });
-    
-
+    })
 })
