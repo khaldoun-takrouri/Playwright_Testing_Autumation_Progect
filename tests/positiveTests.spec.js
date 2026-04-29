@@ -46,39 +46,33 @@ test.describe('Negative Testes', ()=>{
     })
 
     test('locked out user Login' ,async ({page})=>{
-        await loginPage.login1(credentials.lockedOutUser, credentials.password1)
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.lockedUserMessage)
+        await loginPage.login(credentials.lockedOutUser, credentials.password1, messages.lockedUserMessage)
+        //await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.lockedUserMessage)
     })
 
 
     test('Correct UserName and wrong Password' ,async ({page})=>{
-        await loginPage.login1(credentials.standardUser, credentials.wrongPassword)
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.notMatchUserMessage)        
+        await loginPage.login(credentials.standardUser, credentials.wrongPassword ,messages.notMatchUserMessage)
     })
 
     test('Wrong UserName and Correct Password' ,async ({page})=>{
-        await loginPage.login1(credentials.wrongUserName, credentials.password1)
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.notMatchUserMessage)        
+        await loginPage.login(credentials.wrongUserName, credentials.password1 , messages.notMatchUserMessage)
     })
 
     test('Wrong UserName and Wrong Password' ,async ({page})=>{
-        await loginPage.login1(credentials.wrongUserName, credentials.wrongPassword)
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.notMatchUserMessage)        
+        await loginPage.login(credentials.wrongUserName, credentials.wrongPassword , messages.notMatchUserMessage)
 
     })
 
     test('Empty UserName and Correct Password' ,async ({page})=>{
-        await loginPage.login1( "", credentials.password1)
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.userNameRequiredMessage)
+        await loginPage.login( "", credentials.password1 , messages.userNameRequiredMessage)
     })
 
     test('Correct UserName and Empty Password' ,async ({page})=>{
-        await loginPage.login1(credentials.standardUser, "")
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.passwordRequiredMessage)
+        await loginPage.login(credentials.standardUser, "" , messages.passwordRequiredMessage)
     })
 
     test('Empty UserName and Empty Password' ,async ({page})=>{
-        await loginPage.login1("", "")
-        await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.userNameRequiredMessage)
+        await loginPage.login("", "" , messages.userNameRequiredMessage)
     })
 })

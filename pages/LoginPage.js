@@ -2,7 +2,7 @@ import {expect} from "@playwright/test";
 import { urls } from '../data/users.js'
 
 export class LoginPage {
-
+ 
     constructor(page){
         this.page = page
         this.usernameFiled = '[data-test="username"]'
@@ -17,20 +17,21 @@ export class LoginPage {
         await expect(this.page).toHaveURL(urls.loginPageUrl)
     }
 
-    async login(username, password){
+    async login(username, password , errorMesageText = ""){
            await this.page.locator(this.usernameFiled).fill(username )
            await this.page.locator(this.passwordFiled).fill(password)
            await this.page.locator(this.loginButton).click() 
            
-           await expect(this.page).toHaveURL(urls.inventoryPageUrl)
-           await expect(this.page).toHaveTitle('Swag Labs')
-    }
-
-    async login1(username, password){
-           await this.page.locator(this.usernameFiled).fill(username )
-           await this.page.locator(this.passwordFiled).fill(password)
-           await this.page.locator(this.loginButton).click() 
-    }
-    
+           //Check if there is an error message
+           let isErrorVisible = await this.page.locator(this.errorMessage).isVisible();
+           
+           if (isErrorVisible) {
+                await expect(this.page.locator(this.errorMessage)).toHaveText(errorMesageText)
+           } else {
+                await expect(this.page).toHaveURL(urls.inventoryPageUrl)
+                await expect(this.page).toHaveTitle('Swag Labs')
+           }   
+           
+    }       
     
 }
