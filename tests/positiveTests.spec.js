@@ -47,7 +47,6 @@ test.describe('Negative Testes', ()=>{
 
     test('locked out user Login' ,async ({page})=>{
         await loginPage.login(credentials.lockedOutUser, credentials.password1, messages.lockedUserMessage)
-        //await expect(page.locator(loginPage.errorMessage)).toHaveText(messages.lockedUserMessage)
     })
 
 
@@ -61,7 +60,6 @@ test.describe('Negative Testes', ()=>{
 
     test('Wrong UserName and Wrong Password' ,async ({page})=>{
         await loginPage.login(credentials.wrongUserName, credentials.wrongPassword , messages.notMatchUserMessage)
-
     })
 
     test('Empty UserName and Correct Password' ,async ({page})=>{
