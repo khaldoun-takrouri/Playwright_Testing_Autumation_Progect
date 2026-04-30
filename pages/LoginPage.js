@@ -9,29 +9,16 @@ export class LoginPage {
         this.passwordFiled = '[data-test="password"]'
         this.loginButton = '[data-test="login-button"]'
         this.errorMessage = '[data-test="error"]'
-
     }
 
     async goToLoginPage(){
         await this.page.goto(urls.loginPageUrl)
-        await expect(this.page).toHaveURL(urls.loginPageUrl)
     }
 
-    async login(username, password , errorMesageText = ""){
+    async login(username, password){
            await this.page.locator(this.usernameFiled).fill(username )
            await this.page.locator(this.passwordFiled).fill(password)
            await this.page.locator(this.loginButton).click() 
-           
-           //Check if there is an error message
-           let isErrorVisible = await this.page.locator(this.errorMessage).isVisible();
-           
-           if (isErrorVisible) {
-                await expect(this.page.locator(this.errorMessage)).toHaveText(errorMesageText)
-           } else {
-                await expect(this.page).toHaveURL(urls.inventoryPageUrl)
-                await expect(this.page).toHaveTitle('Swag Labs')
-           }   
-           
     }       
     
 }

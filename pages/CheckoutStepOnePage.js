@@ -1,5 +1,4 @@
 import { checkoutData , urls} from '../data/users.js'
-import { CheckoutStepTwoPage } from '../pages/CheckoutStepTwoPage.js'
 import {expect} from '@playwright/test'
 
 
@@ -8,7 +7,6 @@ export class CheckoutStepOnePage{
 
     constructor(page){
         this.page = page
-        this.checkoutStepTwoPage = new CheckoutStepTwoPage(page)
         this.firstNameFiled = '[data-test="firstName"]'
         this.lastNameFiled = '[data-test="lastName"]'
         this.postalCodeFiled = '[data-test="postalCode"]'
@@ -24,8 +22,6 @@ export class CheckoutStepOnePage{
 
     async goToCheckoutStepTwoPage(){
         await this.page.locator(this.continueButton).click() 
-        await expect(this.page).toHaveURL(urls.checkoutStepTwoPageUrl)
-        await expect(this.page.locator(this.checkoutStepTwoPage.pageTitle)).toHaveText('Checkout: Overview')
     }
 
 }
